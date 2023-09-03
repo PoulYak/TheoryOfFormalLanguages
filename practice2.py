@@ -28,5 +28,7 @@ def calculatePostfixExpression(input_string: str) -> int:
 
 if __name__ == "__main__":
     assert calculatePostfixExpression("1 2 +") == 3
-    assert calculatePostfixExpression("1 223 -") == -222
+    assert calculatePostfixExpression("6 9 + 5 - 8 1 2 * + / 7 +") == 8
+    assert calculatePostfixExpression("60 3 / 542 + 23 43 * - 75 +") == -352
+    assert calculatePostfixExpression("33 11 + 44 / 0 - 213 * 22 + 43 2222 - * 512 1000 * +") == -65
     print("All tests passed")

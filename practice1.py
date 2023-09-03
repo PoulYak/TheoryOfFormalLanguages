@@ -36,6 +36,6 @@ def expressionToPostfixForm(input_string: str) -> str:
 if __name__ == "__main__":
     assert expressionToPostfixForm("1+2") == "1 2 +"
     assert expressionToPostfixForm("(6+9-5) / (8+1*2)+7") == "6 9 + 5 - 8 1 2 * + / 7 +"
-    assert expressionToPostfixForm("(6+9-5) / (81+1*2)+75") == "6 9 + 5 - 81 1 2 * + / 75 +"
-    assert expressionToPostfixForm("first_number+b") == "first_number b +"
+    assert expressionToPostfixForm("(6+91-532) / (81+21*2)+75") == "6 91 + 532 - 81 21 2 * + / 75 +"
+    assert expressionToPostfixForm("first_number+b/a+54*33/(12)") == "first_number b a / + 54 33 * 12 / +"
     print("All tests passed")
