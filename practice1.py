@@ -37,4 +37,5 @@ if __name__ == "__main__":
     assert expressionToPostfixForm("1+2") == "1 2 +"
     assert expressionToPostfixForm("(6+9-5) / (8+1*2)+7") == "6 9 + 5 - 8 1 2 * + / 7 +"
     assert expressionToPostfixForm("(6+9-5) / (81+1*2)+75") == "6 9 + 5 - 81 1 2 * + / 75 +"
+    assert expressionToPostfixForm("first_number+b") == "first_number b +"
     print("All tests passed")
