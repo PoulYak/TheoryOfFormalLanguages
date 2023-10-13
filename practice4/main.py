@@ -10,6 +10,8 @@ def transform_NKA2DKA(states, alphabet, relations, init_state, final_states):
         state = stack[i]
         from_state_to_state = defaultdict(set)
         for s in state:
+            if s not in relations:
+                continue
             for relation in relations[s]:
                 from_state_to_state[relation[0]].add(relation[1])
         # print(state, from_state_to_state)
@@ -77,5 +79,5 @@ def read_from_console():
 
 
 if __name__ == "__main__":
-    # print_result(*transform_NKA2DKA(*read_from_file("input.txt")))
-    print_result(*transform_NKA2DKA(*read_from_console()))
+    print_result(*transform_NKA2DKA(*read_from_file("input.txt")))
+    # print_result(*transform_NKA2DKA(*read_from_console()))
