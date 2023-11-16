@@ -23,7 +23,6 @@ class LexicalAnalyzer:
         self.current.re_assign(*next(self.fgetc))
         was_error = False
         while not self.current.eof_state and not was_error:
-
             if self.current.state == self.states.H:
                 self.h_state_processing()
             elif self.current.state == self.states.COMM:
@@ -53,14 +52,13 @@ class LexicalAnalyzer:
     def comm_state_processing(self):
         while not self.current.eof_state and self.current.symbol != "}":
             self.current.re_assign(*next(self.fgetc))
-        if self.current.symbol=="}":
+        if self.current.symbol == "}":
             self.current.state = self.states.H
             if not self.current.eof_state:
                 self.current.re_assign(*next(self.fgetc))
         else:
             self.error.symbol = self.current.symbol
             self.current.state = self.states.ERR
-
 
     def dlm_state_processing(self):
         if self.current.symbol in self.delimiters | self.arith | self.types:
@@ -86,11 +84,10 @@ class LexicalAnalyzer:
                 self.add_token(self.token_names.OPER, self.current.symbol)
         self.current.state = self.states.H
 
-    def err_state_processing(self):
 
-        print(
-            f"\nUnknown: '{self.error.symbol}' in file {self.error.filename} \nline: {self.current.line_number} and pos: {self.current.pos_number}")
-        # self.current.state = self.states.H
+    def err_state_processing(self):
+        Exception(f"\nUnknown: '{self.error.symbol}' in file {self.error.filename} \nline: {self.current.line_number} and pos: {self.current.pos_number}")
+
 
     def id_state_processing(self):  # Completed
         buf = [self.current.symbol]
@@ -155,7 +152,7 @@ class LexicalAnalyzer:
             s.append('\n')
             counter_pos, counter_line = 0, 0
             for i in range(len(s)):
-                yield s[i], i == (len(s) - 1), counter_line, counter_pos
+                yield s[i], s[i] == "@", counter_line, counter_pos
                 if s[i] == "\n":
                     counter_pos = 0
                     counter_line += 1
