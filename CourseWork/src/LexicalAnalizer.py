@@ -148,7 +148,7 @@ class LexicalAnalyzer:
         with open(filename) as fin:
             s = list(fin.read())
             s.append('\n')
-            counter_pos, counter_line = 0, 0
+            counter_pos, counter_line = 1, 1
             for i in range(len(s)):
                 yield s[i], s[i] == "@", counter_line, counter_pos
                 if s[i] == "\n":
