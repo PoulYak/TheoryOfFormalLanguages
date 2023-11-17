@@ -21,8 +21,7 @@ class LexicalAnalyzer:
     def analysis(self):
         self.current.state = self.states.H
         self.current.re_assign(*next(self.fgetc))
-        was_error = False
-        while not self.current.eof_state and not was_error:
+        while not self.current.eof_state:
             if self.current.state == self.states.H:
                 self.h_state_processing()
             elif self.current.state == self.states.COMM:
@@ -31,7 +30,6 @@ class LexicalAnalyzer:
                 self.id_state_processing()
             elif self.current.state == self.states.ERR:
                 self.err_state_processing()
-                was_error = True  # завершаем программу
             elif self.current.state == self.states.NM:
                 self.nm_state_processing()
             elif self.current.state == self.states.DLM:
@@ -48,6 +46,8 @@ class LexicalAnalyzer:
             self.current.state = self.states.DLM
         elif self.current.symbol == "{":
             self.current.state = self.states.COMM
+        else:
+            self.current.state = self.states.ERR
 
     def comm_state_processing(self):
         while not self.current.eof_state and self.current.symbol != "}":
@@ -86,8 +86,7 @@ class LexicalAnalyzer:
 
 
     def err_state_processing(self):
-        Exception(f"\nUnknown: '{self.error.symbol}' in file {self.error.filename} \nline: {self.current.line_number} and pos: {self.current.pos_number}")
-
+        raise Exception(f"\nUnknown: '{self.error.symbol}' in file {self.error.filename} \nline: {self.current.line_number} and pos: {self.current.pos_number}")
 
     def id_state_processing(self):  # Completed
         buf = [self.current.symbol]
@@ -124,7 +123,6 @@ class LexicalAnalyzer:
             self.current.state = self.states.ERR
 
     def is_num(self, digit):
-        # r"^[\+\-]?\d*\.?\d+([eE][\+\-]?\d+)?$"
         if re.match(r"(^\d+[Ee][+-]?\d+$|^\d*\.\d+([Ee][+-]?\d+)?$)", digit):
             return True, self.token_names.REAL
         elif re.match(r"^[01]+[Bb]$", digit):
