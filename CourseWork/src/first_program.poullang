@@ -1,0 +1,27 @@
+program var
+{Объявляем переменные}
+int1, int2, int3: %;
+float1, float2, float3: !;
+bool1,bool2, bool3: $;
+
+begin
+{оператор присваивания}
+int1 as 22
+;
+{Условный оператор}
+if int1<50
+    then int1 as 50
+else
+    int1 as 100
+;
+{Условный оператор без else}
+if int1 = 50
+    then int1 as 100
+;
+{Оператор ввода}
+read(int2, int3)
+;
+{Оператор вывода}
+write(int2, int3+4*10>20)
+
+end@

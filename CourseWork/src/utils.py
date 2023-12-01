@@ -56,3 +56,16 @@ class Error:
         self.symbol = symbol
         self.line = line
         self.pos_in_line = pos_in_line
+
+def fgetc_generator(filename: str):
+    with open(filename) as fin:
+        s = list(fin.read())
+        s.append('\n')
+        counter_pos, counter_line = 1, 1
+        for i in range(len(s)):
+            yield s[i], s[i] == "@", counter_line, counter_pos
+            if s[i] == "\n":
+                counter_pos = 0
+                counter_line += 1
+            else:
+                counter_pos += 1

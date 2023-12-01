@@ -13,7 +13,7 @@ class LexicalAnalyzer:
         self.arith = {"+", '-', '*', '/'}  # +
         self.operators = {"<>", "=", "<", "<=", ">", ">="}  # +
         self.delimiters = {";", ",", ":", "[", "]", "(", ")"}
-        self.fgetc = self.fgetc_generator(filename)
+        self.fgetc = fgetc_generator(filename)
         self.current = Current(state=self.states.H)
         self.error = Error(filename)
         self.lexeme_table = []
@@ -84,9 +84,9 @@ class LexicalAnalyzer:
                 self.add_token(self.token_names.OPER, self.current.symbol)
         self.current.state = self.states.H
 
-
     def err_state_processing(self):
-        raise Exception(f"\nUnknown: '{self.error.symbol}' in file {self.error.filename} \nline: {self.current.line_number} and pos: {self.current.pos_number}")
+        raise Exception(
+            f"\nUnknown: '{self.error.symbol}' in file {self.error.filename} \nline: {self.current.line_number} and pos: {self.current.pos_number}")
 
     def id_state_processing(self):  # Completed
         buf = [self.current.symbol]
@@ -143,19 +143,6 @@ class LexicalAnalyzer:
 
     def add_token(self, token_name, token_value):
         self.lexeme_table.append(Token(token_name, token_value))
-
-    def fgetc_generator(self, filename: str):
-        with open(filename) as fin:
-            s = list(fin.read())
-            s.append('\n')
-            counter_pos, counter_line = 1, 1
-            for i in range(len(s)):
-                yield s[i], s[i] == "@", counter_line, counter_pos
-                if s[i] == "\n":
-                    counter_pos = 0
-                    counter_line += 1
-                else:
-                    counter_pos += 1
 
 
 if __name__ == "__main__":
