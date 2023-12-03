@@ -3,7 +3,8 @@ from utils import *
 
 
 class LexicalAnalyzer:
-    def __init__(self, filename: str):
+    def __init__(self, filename: str, identifiersTable):
+        self.identifiersTable = identifiersTable
         self.states = States("H", "COMM", "ID", "ERR", "NM", "DLM")
         self.token_names = Tokens("KWORD", "IDENT", "NUM", "OPER", "DELIM", "NUM2", "NUM8", "NUM10", "NUM16", "REAL",
                                   "TYPE", "ARITH")
@@ -101,6 +102,7 @@ class LexicalAnalyzer:
             self.add_token(self.token_names.KWORD, buf)
         else:
             self.add_token(self.token_names.IDENT, buf)
+            self.identifiersTable.put(buf)
         self.current.state = self.states.H
 
     def nm_state_processing(self):

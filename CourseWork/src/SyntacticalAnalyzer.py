@@ -1,6 +1,8 @@
 class SyntacticalAnalyzer:
-    def __init__(self, lexeme_table):
+    def __init__(self, lexeme_table, identifiersTable):
+        self.identifiersTable = identifiersTable
         self.lex_get = self.lexeme_generator(lexeme_table)
+        self.id_stack = []
         self.current_lex = next(self.lex_get)
         self.relation_operations = {"<>", "=", "<", "<=", ">", ">="}
         self.term_operations = {"+", "-", "or"}
@@ -42,20 +44,34 @@ class SyntacticalAnalyzer:
 
     def DESCRIPTION(self):  # <описание>::= {<идентификатор> {, <идентификатор> } : <тип> ;}
         while self.current_lex.token_value != "begin":
-            self.IDENTIFIER()
+            self.IDENTIFIER(from_description=True)
             while self.current_lex.token_value == ",":
                 self.current_lex = next(self.lex_get)
-                self.IDENTIFIER()
+                self.IDENTIFIER(from_description=True)
             self.equal_token_value(":")
 
-            self.TYPE()
+            self.TYPE(from_description=True)
             self.equal_token_value(";")
 
-    def IDENTIFIER(self):
-        self.equal_token_name("IDENT")
+    def IDENTIFIER(self, from_description=False):
+        if from_description:
+            if self.current_lex.token_name != "IDENT":
+                self.throw_error()
+            self.id_stack.append(self.current_lex.token_value)
+            self.current_lex = next(self.lex_get)
+        else:
+            self.equal_token_name("IDENT")
 
-    def TYPE(self):
-        self.equal_token_name("TYPE")
+    def TYPE(self, from_description=False):
+        if from_description:
+            if self.current_lex.token_name != "TYPE":
+                self.throw_error()
+            for item in self.id_stack:
+                self.identifiersTable.put(item, True, self.current_lex.token_value)
+            self.id_stack = []
+            self.current_lex = next(self.lex_get)
+        else:
+            self.equal_token_name("TYPE")
 
     def OPERATOR(
             self):  # todo <оператор>::= <составной> | <присваивания> | <условный> | <фиксированного_цикла> | <условного_цикла> | <ввода> | <вывода>

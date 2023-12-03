@@ -1,11 +1,13 @@
 from typing import NamedTuple
 
+
 class Token:
     def __init__(self, token_name, token_value):
         self.token_name = token_name
         self.token_value = token_value
     def __repr__(self):
         return f"{self.token_name} ::= {self.token_value}"
+
 
 class States(NamedTuple):
     H: str
