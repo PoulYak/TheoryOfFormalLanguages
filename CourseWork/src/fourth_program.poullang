@@ -1,0 +1,15 @@
+program var
+{Объявляем переменные}
+float1, float2, float3: !;
+
+begin
+float1 as 22.1
+;
+float2 as 0.1
+;
+float3 as 2.1e+1
+;
+while not float2 <= 100 and not float1 <= 100 or (float3*4)+2>34
+do
+    [float3 as float3*15 : float2 as float2*15 : float1 as float1*15: write(float1, float2, float3)]
+end@

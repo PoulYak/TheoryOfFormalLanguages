@@ -1,0 +1,16 @@
+program var
+float1, float2, float3: !;
+int1, int2, int3: %;
+
+begin
+float1 as 22.1
+;
+float2 as 0.1
+;
+float3 as 2.1e+1
+;
+read(int1, int2, int3)
+;
+write(float1, float2, float3, int1+3, int2*4, int3-9)
+
+end@

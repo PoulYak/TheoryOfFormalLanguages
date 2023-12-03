@@ -1,6 +1,3 @@
-from utils import *
-
-
 class SyntacticalAnalyzer:
     def __init__(self, lexeme_table):
         self.lex_get = self.lexeme_generator(lexeme_table)

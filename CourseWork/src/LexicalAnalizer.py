@@ -144,7 +144,3 @@ class LexicalAnalyzer:
     def add_token(self, token_name, token_value):
         self.lexeme_table.append(Token(token_name, token_value))
 
-
-if __name__ == "__main__":
-    l = LexicalAnalyzer("input.poullang")
-    print(l.is_num("01o"))

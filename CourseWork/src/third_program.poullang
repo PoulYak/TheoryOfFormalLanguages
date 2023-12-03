@@ -1,0 +1,14 @@
+program var
+{Объявляем переменные}
+bool1,bool2, bool3: $;
+
+begin
+bool1 as true
+;
+bool2 as false
+;
+bool3 as false
+;
+write(bool1, bool2, bool3)
+
+end@
