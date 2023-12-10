@@ -7,6 +7,9 @@ class SyntacticalAnalyzer:
         self.relation_operations = {"<>", "=", "<", "<=", ">", ">="}
         self.term_operations = {"+", "-", "or"}
         self.factor_operations = {"*", "/", "and"}
+        self.keywords = {"or": 1, "and": 2, "not": 3, "program": 4, "var": 5, "begin": 6, "end": 7, "as": 8, "if": 9,
+                         "then": 10, "else": 11, "for": 12, "to": 13, "do": 14, "while": 15, "read": 16, "write": 17,
+                         "true": 18, "false": 19}
 
     def equal_token_value(self, word):
         if self.current_lex.token_value != word:
@@ -67,14 +70,15 @@ class SyntacticalAnalyzer:
             if self.current_lex.token_name != "TYPE":
                 self.throw_error()
             for item in self.id_stack:
-                self.identifiersTable.put(item, True, self.current_lex.token_value)
+                if item not in self.keywords:
+                    self.identifiersTable.put(item, True, self.current_lex.token_value)
             self.id_stack = []
             self.current_lex = next(self.lex_get)
         else:
             self.equal_token_name("TYPE")
 
     def OPERATOR(
-            self):  # todo <оператор>::= <составной> | <присваивания> | <условный> | <фиксированного_цикла> | <условного_цикла> | <ввода> | <вывода>
+            self):
         if self.current_lex.token_value == "[":
             self.COMPOSITE_OPERATOR()
         elif self.current_lex.token_value == "if":
@@ -94,8 +98,7 @@ class SyntacticalAnalyzer:
         self.equal_token_value("[")
         self.OPERATOR()
 
-        while self.current_lex.token_value in {"\n",
-                                               ":"}:  # todo мы уничтожаем перевод строки ещё на лексическом анализе
+        while self.current_lex.token_value in {"\n", ":"}:
             self.current_lex = next(self.lex_get)
             self.OPERATOR()
 

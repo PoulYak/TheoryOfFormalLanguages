@@ -9,7 +9,8 @@ class LexicalAnalyzer:
         self.token_names = Tokens("KWORD", "IDENT", "NUM", "OPER", "DELIM", "NUM2", "NUM8", "NUM10", "NUM16", "REAL",
                                   "TYPE", "ARITH")
         self.keywords = {"or": 1, "and": 2, "not": 3, "program": 4, "var": 5, "begin": 6, "end": 7, "as": 8, "if": 9,
-                         "then": 10, "else": 11, "for": 12, "to": 13, "do": 14, "while": 15, "read": 16, "write": 17}
+                         "then": 10, "else": 11, "for": 12, "to": 13, "do": 14, "while": 15, "read": 16, "write": 17,
+                         "true": 18, "false": 19}
         self.types = {"%", "!", "$"}  # +
         self.arith = {"+", '-', '*', '/'}  # +
         self.operators = {"<>", "=", "<", "<=", ">", ">="}  # +
@@ -102,7 +103,8 @@ class LexicalAnalyzer:
             self.add_token(self.token_names.KWORD, buf)
         else:
             self.add_token(self.token_names.IDENT, buf)
-            self.identifiersTable.put(buf)
+            if buf not in self.keywords:
+                self.identifiersTable.put(buf)
         self.current.state = self.states.H
 
     def nm_state_processing(self):
@@ -145,4 +147,3 @@ class LexicalAnalyzer:
 
     def add_token(self, token_name, token_value):
         self.lexeme_table.append(Token(token_name, token_value))
-

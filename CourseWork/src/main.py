@@ -3,7 +3,7 @@ from SyntacticalAnalyzer import SyntacticalAnalyzer
 from SemanticalAnalyzer import IdentifiersTable
 
 PRINT_INFO = True
-PATH_TO_PROGRAM = "first_program.poullang"
+PATH_TO_PROGRAM = "second_program.poullang"
 
 
 def main():
